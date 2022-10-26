@@ -14,7 +14,7 @@
             <div style="width:800px;" id="reader"></div>
         </div>
         <div class="col" style="padding:30px;">
-            <input id="p-result" readonly>Resultado</input>
+            <input id="p-result" readonly></input>
             <div class="result" id="result"></div>
         </div>
     </div>
@@ -30,7 +30,7 @@ const qrCodeSuccessCallback = (decodedText, decodedResult) => {
     /* handle success */
   let result = document.getElementById("p-result")
   result.value = decodedText
-  result.innerHTML = decodedText
+  //result.innerHTML = decodedText
 
 };
 const config = { fps: 10, qrbox: { width: 700, height: 700 } };
