@@ -65,6 +65,13 @@ Html5Qrcode.getCameras().then(devices => {
   // handle err
 });
 
+const html5QrCode = new Html5Qrcode("reader");
+const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+    /* handle success */
+};
+
+const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
 
 
 html5QrcodeScanner.render(onScanSuccess, onScanFailure);
