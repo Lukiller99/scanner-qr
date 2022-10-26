@@ -1,14 +1,4 @@
-<script src="html5-qrcode.min.js"></script>
-<style>
-  /* .result{
-    background-color: green;
-    color:#fff;
-    padding:20px;
-  }
-  .row{
-    display:flex;
-  } */
-</style>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"> </script>
 <!-- Compiled and minified CSS -->
 <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -17,17 +7,16 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 
-    
 <div class="container">
-    <div class="row">
+    <div class="align-wrapper">
         <div class="col s12 m6"></div>
         <div class="col">
           Prueba
-            <div style="width:500px;" id="reader"></div>
+            <div style="width:800px;" id="reader"></div>
         </div>
         <div class="col" style="padding:30px;">
-            <h4>Resultado</h4>
-            <div id="result">Resultado </div>
+            <h4 id="p-result" >Resultado</h4>
+            <div class="result" id="result"></div>
         </div>
     </div>
     </div>
@@ -35,47 +24,26 @@
 
 
 <script type="text/javascript">
-  function onScanSuccess(decodedText, decodedResult) {
-  // handle the scanned code as you like, for example:
-  console.log(`Code matched = ${decodedText}`, decodedResult);
-}
 
-function onScanFailure(error) {
-  // handle scan failure, usually better to ignore and keep scanning.
-  // for example:
-  console.warn(`Code scan error = ${error}`);
-}
-
-let html5QrcodeScanner = new Html5QrcodeScanner(
-  "reader",
-  { fps: 10, qrbox: {width: 250, height: 250} },
-  /* verbose= */ false);
-
-  // This method will trigger user permissions
-Html5Qrcode.getCameras().then(devices => {
-  /**
-   * devices would be an array of objects of type:
-   * { id: "id", label: "label" }
-   */
-  if (devices && devices.length) {
-    var cameraId = devices[0].id;
-    // .. use this to start scanning.
-  }
-}).catch(err => {
-  // handle err
-});
 
 const html5QrCode = new Html5Qrcode("reader");
 const qrCodeSuccessCallback = (decodedText, decodedResult) => {
     /* handle success */
+  let result = document.getElementById("p-result")
+
+  result.innerHTML = decodedText
+
 };
-
-const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
+const config = { fps: 10, qrbox: { width: 700, height: 700 } };
 
 
-html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+// If you want to prefer back camera
+html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 
-
+html5QrCode.stop().then((ignore) => {
+  // QR Code scanning is stopped.
+}).catch((err) => {
+  // Stop failed, handle it.
+});
 
 </script>
